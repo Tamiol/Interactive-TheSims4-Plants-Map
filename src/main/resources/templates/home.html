@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Plan Location App</title>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script type="text/javascript" src="../static/ImageMapster/src/redist/when.js" th:src="@{/ImageMapster/src/redist/when.js}"></script>
+    <script type="text/javascript" src="../static/ImageMapster/src/core.js" th:src="@{/ImageMapster/src/core.js}" ></script>
+    <script type="text/javascript" src="../static/ImageMapster/src/graphics.js" th:src="@{/ImageMapster/src/graphics.js}" ></script>
+    <script type="text/javascript" src="../static/ImageMapster/src/mapimage.js" th:src="@{/ImageMapster/src/mapimage.js}" ></script>
+    <script type="text/javascript" src="../static/ImageMapster/src/mapdata.js" th:src="@{/ImageMapster/src/mapdata.js}" ></script>
+    <script type="text/javascript" src="../static/ImageMapster/src/areadata.js" th:src="@{/ImageMapster/src/areadata.js}" ></script>
+    <script type="text/javascript" src="../static/ImageMapster/src/areacorners.js" th:src="@{/ImageMapster/src/areacorners.js}" ></script>
+    <script type="text/javascript" src="../static/ImageMapster/src/scale.js" th:src="@{/ImageMapster/src/scale.js}" ></script>
+    <script type="text/javascript" src="../static/ImageMapster/src/tooltip.js" th:src="@{/ImageMapster/src/tooltip.js}" ></script>
+
+    <script src="../js/PlantsList.js"></script>
+
+</head>
+<body>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var resizing,
+            win=$(window),
+            diffW=$('#box'),
+            lastw=win.width(),
+            lasth=win.height();
+
+        var resize = function() {
+            var win= $(window),
+                width=win.width(), height=win.height();
+            var image = $('.currentMap');
+            // only try to resize every 200 ms
+            if (resizing) {
+                return;
+            }
+            if (lastw !== width || lasth !== height ) {
+                resizing=true;
+                image.mapster('resize',diffW.width(),0,200);
+                lastw=width;
+                lasth=height;
+                setTimeout(function() {
+                    resizing=false;
+                    resize();
+                },200);
+            } else { }
+        };
+        $(window).bind('resize', resize);
+
+        if (window.Zepto) {
+            jQuery = Zepto;
+            (function ($) {
+                if ($) {
+                    $.fn.prop = $.fn.attr;
+                }
+            } (jQuery));
+        }
+
+        $('img').mapster({
+            showToolTip: true,
+            strokeColor: 'ffffff',
+            strokeWidth: 6,
+            stroke: true,
+            scaleMap: true,
+            strokeOpacity: 1,
+            mapKey: "group",
+            isSelectable: false,
+            fillOpacity: 0.3,
+            fillColor: 'ffffff',
+            fade: true,
+            fadeDuration: 200,
+
+            render_select: {
+                fillOpacity: 1,
+                altImageOpacity: 1,
+                strokeWidth: 3,
+                altImage: '../../../../../images/WillowCreek/CourtyardLaneWithPlants.png'
+            },
+
+            areas: [
+                {
+                    key: 'foundryCove',
+                    toolTip: "<b>Foundry Cove</b>"
+                },
+                {
+                    key: 'courtyardLane',
+                    toolTip: "<b>Courtyard Lane</b>"
+                },
+                {
+                    key: 'pendulaView',
+                    toolTip: "<b>Pendula View</b>"
+                },
+                {
+                    key: 'sageEstates',
+                    toolTip: "<b>Sage Estates</b>"
+                },
+                {
+                    key: 'magnoliaBlossomPark',
+                    toolTip: "<b>Magnolia Blossom Park</b>"
+                },
+                {
+                    key: 'willowCreekCommercialDistrict',
+                    toolTip: "<b>Willow Creek Commercial District</b>"
+                },
+                //plants
+                {
+                    key: 'mushroom',
+                    toolTip: "<b>Mushroom</b>",
+                },
+                {
+                    key: 'rose',
+                    toolTip: "<b>Rose</b>"
+                },
+                {
+                    key: 'snapdragon',
+                    toolTip: "<b>Snapdragon</b>"
+                },
+                {
+                    key: 'arrowBack',
+                    toolTip: "<b>Powrót</b>",
+                    selected: true,
+                    isDeselectable: false
+                },
+            ]
+        });
+    });
+</script>
+
+<section class="container" id="box">
+    <div id="willowCreekMapBox">
+        <img th:src="@{/images/WillowCreek/WillowCreek.png}" src="/images/WillowCreek/WillowCreek.png" usemap="#willow_creek" class="currentMap" id="willowCreekMap">
+        <map name="willow_creek">
+            <area id="foundryCove" group="foundryCove" href="#" coords="1155,575,1086,585,1014,605,985,636,991,681,1053,744,1221,831,1433,915,1686,744,1723,688,1713,642,1693,617,1660,592,1608,603,1545,605,1476,598,1430,590,1357,580,1269,571" shape="poly">
+            <area id="courtyardLane" group="courtyardLane" href="#" coords="1148,559,1255,556,1369,561,1482,578,1588,585,1677,566,1733,536,1698,495,1691,434,1706,383,1730,351,1566,336,1471,332,1398,341,1333,364,1253,422,1187,505,1136,536" shape="poly">
+            <area id="pendulaView" group="pendulaView" href="#" coords="1050,507,1153,470,1211,412,1264,373,1303,342,1299,307,1265,286,1177,276,1079,273,1002,275,928,273,826,283,743,298,646,336,673,370,760,415,782,459,860,473,948,507" shape="poly">
+            <area id="sageEstates" group="sageEstates" href="#" coords="755,453,731,424,638,375,626,337,522,317,410,307,348,293,212,347,283,381,343,420,412,476,387,515,402,529,507,514,629,480" shape="poly">
+            <area id="magnoliaBlossomPark" group="magnoliaBlossomPark" href="#" coords="741,480,794,485,884,517,980,549,1055,556,1063,578,979,607,950,649,975,707,909,754,424,592,573,534,661,502" shape="poly">
+            <area id="willowCreekCommercialDistrict" group="willowCreekCommercialDistrict" href="#" coords="1002,815,416,593,280,617,180,629,119,649,137,675,310,736,480,831,516,831,558,842,672,902,726,934,782,953,850,942,909,898,948,895,958,866"  shape="poly">
+        </map>
+    </div>
+
+    <div id="foundryCoveMap">
+        <img th:src="@{/images/WillowCreek/FoundryCove.png}" src="/images/WillowCreek/FoundryCove.png" usemap="#foundry_cove" class="map" >
+    </div>
+
+    <div id="courtyardLaneMapBox">
+        <img th:src="@{/images/WillowCreek/CourtyardLane.png}" src="/images/WillowCreek/CourtyardLane.png" usemap="#courtyard_lane" id="courtyardLaneMap">
+        <map name="courtyard_lane">
+            <area group="mushroom" href="#" coords="1569,498,36" shape="circle">
+            <area group="mushroom" href="#" coords="1667,385,36" shape="circle">
+
+            <area group="snapdragon" href="#" coords="1607,805,36" shape="circle">
+            <area group="snapdragon" href="#" coords="1335,676,36" shape="circle">
+            <area group="snapdragon" href="#" coords="858,579,36" shape="circle">
+            <area group="snapdragon" href="#" coords="1132,222,36" shape="circle">
+            <area group="snapdragon" href="#" coords="311,210,36" shape="circle">
+            <area group="snapdragon" href="#" coords="248,467,36" shape="circle">
+
+            <area group="rose" href="#" coords="270,622,36" shape="circle">
+            <area group="rose" href="#" coords="1018,616,36" shape="circle">
+            <area group="rose" href="#" coords="1279,794,36" shape="circle">
+            <area group="rose" href="#" coords="1690,544,36" shape="circle">
+
+            <area group="strawberry" href="#" coords="1332,573,30" shape="circle">
+            <area group="strawberry" href="#" coords="1560,227,31" shape="circle">
+
+            <area group="onion" href="#" coords="317,801,35" shape="circle">
+            <area group="onion" href="#" coords="1326,430,33" shape="circle">
+
+            <area group="arrowBack" href="#" class="bactToWillowCreek" coords="214,930,214,878,115,878,115,848,54,904,115,960,115,930" shape="poly" >
+        </map>
+    </div>
+</section>
+
+<section id="icons">
+    <img th:src="@{/images/WillowCreek/WillowCreekIcon.png}" src="/images/WillowCreek/WillowCreekIcon.png" id="willowCreekIcon">
+</section>
+
+<section id="plants">
+    <img th:src="@{/images/Plants/Apple.png}" src="/images/Plants/Apple.png" id="apple">
+    <img th:src="@{/images/Plants/Basil.png}" src="/images/Plants/Basil.png" id="basil">
+    <img th:src="@{/images/Plants/Bluebell.png}" src="/images/Plants/Bluebell.png" id="bluebell">
+    <img th:src="@{/images/Plants/Carrot.png}" src="/images/Plants/Carrot.png" id="carrot">
+    <img th:src="@{/images/Plants/Cherry.png}" src="/images/Plants/Cherry.png" id="cherry">
+    <img th:src="@{/images/Plants/Chrysanthemum.png}" src="/images/Plants/Chrysanthemum.png" id="chrysanthemum">
+    <img th:src="@{/images/Plants/Lemon.png}" src="/images/Plants/Lemon.png" id="lemon">
+    <img th:src="@{/images/Plants/Lily.png}" src="/images/Plants/Lily.png" id="lily">
+    <img th:src="@{/images/Plants/Mushroom.png}" src="/images/Plants/Mushroom.png" id="mushroom">
+    <img th:src="@{/images/Plants/Onion.png}" src="/images/Plants/Onion.png" id="onion">
+    <img th:src="@{/images/Plants/Parsley.png}" src="/images/Plants/Parsley.png" id="parsley">
+    <img th:src="@{/images/Plants/Pear.png}" src="/images/Plants/Pear.png" id="pear">
+    <img th:src="@{/images/Plants/Plantain.png}" src="/images/Plants/Plantain.png" id="plantain">
+    <img th:src="@{/images/Plants/Potato.png}" src="/images/Plants/Potato.png" id="potato">
+    <img th:src="@{/images/Plants/Rose.png}" src="/images/Plants/Rose.png" id="rose">
+    <img th:src="@{/images/Plants/Sage.png}" src="/images/Plants/Sage.png" id="sage">
+    <img th:src="@{/images/Plants/Snapdragon.png}" src="/images/Plants/Snapdragon.png" id="snapdragon">
+    <img th:src="@{/images/Plants/Spinach.png}" src="/images/Plants/Spinach.png" id="spinach">
+    <img th:src="@{/images/Plants/Strawberry.png}" src="/images/Plants/Strawberry.png" id="strawberry">
+    <img th:src="@{/images/Plants/Tomato.png}" src="/images/Plants/Tomato.png" id="tomato">
+    <img th:src="@{/images/Plants/Tulip.png}" src="/images/Plants/Tulip.png" id="tulip">
+</section>
+
+    <script type="text/javascript">
+        var foundryCove = document.getElementById("foundryCove");
+        var willowCreekMapBox = document.getElementById("willowCreekMapBox");
+        var foundryCoveMap = document.getElementById("foundryCoveMap");
+        var courtyardLane = document.getElementById("courtyardLane");
+
+        var apple = document.getElementById("apple");
+        var basil = document.getElementById("basil");
+        var bluebell = document.getElementById("bluebell");
+        var carrot = document.getElementById("carrot");
+        var cherry = document.getElementById("cherry");
+        var chrysanthemum = document.getElementById("chrysanthemum");
+        var lemon = document.getElementById("lemon");
+        var lily = document.getElementById("lily");
+        var mushroom = document.getElementById("mushroom");
+        var onion = document.getElementById("onion");
+        var parsley = document.getElementById("parsley");
+        var pear = document.getElementById("pear");
+        var plantain = document.getElementById("plantain");
+        var potato = document.getElementById("potato");
+        var rose = document.getElementById("rose");
+        var sage = document.getElementById("sage");
+        var snapdragon = document.getElementById("snapdragon");
+        var spinach = document.getElementById("spinach");
+        var strawberry = document.getElementById("strawberry");
+        var tomato = document.getElementById("tomato");
+        var tulip = document.getElementById("tulip");
+
+        $('#willowCreekIcon').addClass('selected');
+
+        var isSelected = []
+        for (i = 0; i < 21; i++) {
+            isSelected.push(false);
+        }
+
+        foundryCove.onclick = function(){
+            willowCreekMapBox.style.display = "none";
+            foundryCoveMap.style.display = "block";
+        };
+
+        courtyardLane.onclick = function(){
+            $('#willowCreekMapBox').hide();
+            $("#willowCreekMap").removeClass("currentMap")
+            $("#courtyardLaneMap").addClass("currentMap")
+            $('#courtyardLaneMapBox').show();
+            $('#courtyardLaneMap').mapster('resize', document.getElementById("box").offsetWidth, 0, 250);
+        };
+
+        $(".bactToWillowCreek").click(function () {
+            $('#courtyardLaneMapBox').hide();
+            $("#courtyardLaneMap").removeClass("currentMap")
+            $("#willowCreekMap").addClass("currentMap")
+            $('#willowCreekMapBox').show();
+            $('#willowCreekMap').mapster('resize', document.getElementById("box").offsetWidth, 0, 250);
+        });
+
+        apple.addEventListener('click', () => ppp(PlantsList.APPLE));
+        basil.addEventListener('click', () => selectPlant(2, 'basil'));
+        mushroom.addEventListener('click', () => selectPlant(8, 'mushroom'));
+        onion.addEventListener('click', () => selectPlant(9, 'onion'));
+        rose.addEventListener('click', () => selectPlant(14, 'rose'));
+        snapdragon.addEventListener('click', () => selectPlant(16, 'snapdragon'));
+
+        function ppp(plant){
+            plant.isSelected = !plant.isSelected;
+            if(plant.isSelected){
+                $('img').mapster('set', true, plant.name,{ fillOpacity: 1, altImageOpacity: 1})
+                $('#' + plant.name).addClass('selected');
+            }else {
+                $('img').mapster('set', false, plant.name,{ fillOpacity: 1, altImageOpacity: 1})
+                $('#' + plant.name).removeClass('selected');
+            }
+        }
+
+        function selectPlant(number, name){
+            isSelected[number] = !isSelected[number];
+            if(isSelected[number]){
+                $('img').mapster('set', true, name,{ fillOpacity: 1, altImageOpacity: 1})
+                $('#' + name).addClass('selected');
+            }else {
+                $('img').mapster('set', false, name,{ fillOpacity: 1, altImageOpacity: 1})
+                $('#' + name).removeClass('selected');
+            }
+        }
+
+        function changeImage(from, to, mapName) {
+
+        }
+    </script>
+</body>
+</html>
